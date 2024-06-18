@@ -1,0 +1,18 @@
+{
+  "name": "prueba-brm",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "prueba de BRM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"node src/app.js"
+  },
+  "author": "Yosip Mike Colin",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "sequelize": "^6.37.3"
+  }
+}
