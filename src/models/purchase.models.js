@@ -1,32 +1,20 @@
 import { DataTypes } from "sequelize";
 import db from "../database/connection.js";
+import Products from "./products.models.js";
 
-const Products = db.define(
-  "Products",
+const Purchases = db.define(
+  "Purchases",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    lotNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    availableQuantity: {
+    product_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Products,
+        key: 'id'
+      }
     },
-    entryDate: {
-      type: DataTypes.DATE,
+    cantidad: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     createdAt: {
@@ -41,9 +29,13 @@ const Products = db.define(
     },
   },
   {
-    tableName: "products",
+    tableName: "purchases",
     timestamps: true,
   }
 );
 
-export default Products;
+// Establecer la relación
+Products.hasMany(Purchases, { foreignKey: 'product_id' });
+Purchases.belongsTo(Products, { foreignKey: 'product_id' });
+
+export default Purchases;
