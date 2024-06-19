@@ -1,7 +1,6 @@
 import db from "../database/connection.js";
 import { verifyToken } from "../token/auth.js";
 
-
 // * INICIAR BASE DE DATOS
 export const startDB = async () => {
   try {
@@ -11,7 +10,6 @@ export const startDB = async () => {
     console.error("Error connecting to database:", error);
   }
 };
-
 
 // * VALIDAR AUTORIZACIÓN
 export const authorizeAdmin = (req, res, next) => {
