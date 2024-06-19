@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.js",
-    "migration": "npx sequelize-cli init npx sequelize-cli model:generate --name User --attributes username:string,email:string,password:string,rol:string,createdAt:date,updatedAt:date npx sequelize-cli db:migrate"
+    "docs": "apidoc -i src/docs -o docs",
+    "open-docs": "open-cli docs/index.html"
   },
   "author": "Yosip Mike Colin",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
+    "open-cli": "^8.0.0",
     "sequelize-cli": "^6.6.2"
   }
 }

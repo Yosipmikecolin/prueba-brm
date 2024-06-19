@@ -3,7 +3,6 @@ import User from "../models/user.models.js";
 import Products from "../models/products.models.js";
 import { authorizeAdmin } from "../utils/index.js";
 
-// Crear detalles de compra
 export const createPurchaseDetail = async (params) => {
   const { user_id, product_id, amount, totalPrice } = params;
   try {
