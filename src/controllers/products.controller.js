@@ -75,6 +75,9 @@ export const updateProduct = [
   async (req, res) => {
     try {
       const { id } = req.params;
+      if (!Object.keys(req.body).length > 0) {
+        return res.status(400).json({ error: "Data no proporcionada" });
+      }
       const { lotNumber, name, price, availableQuantity, entryDate } = req.body;
 
       const product = await Products.findByPk(id);

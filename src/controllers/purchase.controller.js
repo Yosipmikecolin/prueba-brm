@@ -9,9 +9,9 @@ export const createPurchase = [
   async (req, res) => {
     const purchasesData = req.body;
     const user_id = req.user_id;
-
-    // Verificar que purchasesData es un array
-    if (!Array.isArray(purchasesData)) {
+    
+    //VERIFICA QUE EL CUERPO SEA UN ARRAY O TENGA ELEMENTOS
+    if (!Array.isArray(purchasesData) || purchasesData.length === 0) {
       return res.status(400).json({
         error: "El cuerpo de la solicitud debe ser un array de compras",
       });
