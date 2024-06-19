@@ -3,7 +3,7 @@ import { validationUser } from "../validations/index.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../token/auth.js";
 
-// *LOGIN USUARIO
+// * LOGIN USUARIO
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 

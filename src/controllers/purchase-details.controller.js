@@ -3,6 +3,8 @@ import User from "../models/user.models.js";
 import Products from "../models/products.models.js";
 import { authorizeAdmin } from "../utils/index.js";
 
+
+// * CREAR UN DETALLE DE LA COMPRA
 export const createPurchaseDetail = async (params) => {
   const { user_id, product_id, amount, totalPrice } = params;
   try {
@@ -20,7 +22,7 @@ export const createPurchaseDetail = async (params) => {
   }
 };
 
-// Obtener todos los detalles de compra
+// * OBTENER TODOS LOS DETALLES DE LA COMPRA
 export const getAllPurchaseDetails = [
   authorizeAdmin,
   async (_req, res) => {

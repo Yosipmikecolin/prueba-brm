@@ -12,7 +12,7 @@ export const startDB = async () => {
   }
 };
 
-// * VALIDAR AUTORIZACIÓN
+// * VALIDAR AUTORIZACIÓN PARA ADMINISTRADOR
 export const authorizeAdmin = async (req, res, next) => {
   const token = req.headers["authorization"];
 
@@ -40,6 +40,7 @@ export const authorizeAdmin = async (req, res, next) => {
   }
 };
 
+// * VALIDAR AUTORIZACIÓN PARA CLIENTE
 export const authorizeClient = async (req, res, next) => {
   const token = req.headers["authorization"];
 
