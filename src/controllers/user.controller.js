@@ -33,7 +33,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// *CREAR USUARIO
+// * CREAR USUARIO
 export const createUser = async (req, res) => {
   try {
     const { body } = req;
@@ -45,16 +45,13 @@ export const createUser = async (req, res) => {
         .json({ error: "El correo electrónico ya está registrado" });
     }
 
-    // Encripta la contraseña antes de guardarla
     const hashedPassword = await bcrypt.hash(body.password, 10); // 10 es el número de rondas de encriptación
 
-    // Crea un nuevo usuario con la contraseña encriptada
     const newUser = await User.create({
       ...body,
-      password: hashedPassword, // Guarda la contraseña encriptada en la base de datos
+      password: hashedPassword,
     });
 
-    // Genera un token JWT y envía username y token en la respuesta
     const token = generateToken(newUser.rol);
     res.status(201).json({
       username: newUser.username,

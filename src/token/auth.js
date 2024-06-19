@@ -12,8 +12,6 @@ export const verifyToken = (token) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     return decoded;
   } catch (error) {
-    return null; // Retorna null si el token es inválido o ha expirado
+    return null;
   }
 };
-
-
