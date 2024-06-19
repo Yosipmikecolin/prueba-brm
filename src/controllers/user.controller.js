@@ -52,10 +52,9 @@ export const createUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = generateToken(newUser.rol);
     res.status(201).json({
       username: newUser.username,
-      token,
+      message: "Usuario creado exitosamente",
     });
   } catch (error) {
     console.error("Error al crear usuario:", error);

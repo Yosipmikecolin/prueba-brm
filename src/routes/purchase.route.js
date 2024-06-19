@@ -1,10 +1,14 @@
 import { Router } from "express";
-import { create, getAll, getById } from "../controllers/purchase.controller.js";
+import {
+  createPurchase,
+  getAllPurchase,
+  getByIdPurchase,
+} from "../controllers/purchase.controller.js";
 
 const router = Router();
 
-router.post("/", create);
-router.get("/", getAll);
-router.get("/:id", getById);
+router.post("/", createPurchase);
+router.get("/", getAllPurchase);
+router.get("/:id", getByIdPurchase);
 
 export default router;
