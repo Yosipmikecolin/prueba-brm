@@ -1,5 +1,5 @@
 import User from "../models/user.models.js";
-import { validationUser } from "../validations/index.js";
+import { validationErrors } from "../validations/index.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../token/auth.js";
 
@@ -57,8 +57,7 @@ export const createUser = async (req, res) => {
       message: "Usuario creado exitosamente",
     });
   } catch (error) {
-    console.error("Error al crear usuario:", error);
-    const response = validationUser(error.message);
+    const response = validationErrors(error.message);
     res.status(500).json({ error: response });
   }
 };

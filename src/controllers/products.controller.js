@@ -23,14 +23,23 @@ export const createProduct = [
   async (req, res) => {
     try {
       const { lotNumber, name, price, availableQuantity, entryDate } = req.body;
-      const newProduct = await Products.create({
-        lotNumber,
-        name,
-        price,
-        availableQuantity,
-        entryDate,
+      const existingProducts = await Products.findOne({
+        where: { lotNumber: lotNumber },
       });
-      res.status(201).json(newProduct);
+      if (existingProducts) {
+        return res
+          .status(400)
+          .json({ error: "El producto ya está registrado" });
+      } else {
+        const newProduct = await Products.create({
+          lotNumber,
+          name,
+          price,
+          availableQuantity,
+          entryDate,
+        });
+        res.status(201).json(newProduct);
+      }
     } catch (error) {
       console.error("Error al crear el producto:", error);
       res

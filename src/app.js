@@ -22,7 +22,7 @@ app.use("/api/create-tables", tablesRoutes);
 app.use("/api/details-purchases", detailsPurchaseRoutes);
 
 //* SERVER
-app.listen(4000, () => {
+app.listen(process.env.PORT || 4000, () => {
   startDB();
-  console.log("Server run port", 4000);
+  console.log("Server run port", process.env.PORT || 4000);
 });
