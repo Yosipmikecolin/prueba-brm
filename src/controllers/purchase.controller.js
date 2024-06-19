@@ -1,22 +1,23 @@
 import Purchases from "../models/purchase.models.js";
 import Products from "../models/products.models.js";
 import { authorizeClient } from "../utils/index.js";
+import { createPurchaseDetail } from "./purchase-details.controller.js";
 
 // * CREAR UNA COMPRA
 export const createPurchase = [
   authorizeClient,
   async (req, res) => {
-    const { product_id, cantidad } = req.body;
+    const { product_id, amount } = req.body;
     try {
       const product = await Products.findByPk(product_id);
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });
       }
-      if (product.availableQuantity < cantidad) {
+      if (product.availableQuantity < amount) {
         return res.status(400).json({ error: "Stock insuficiente" });
       }
-      const purchase = await Purchases.create({ product_id, cantidad });
-      product.availableQuantity -= cantidad;
+      const purchase = await Purchases.create({ product_id, amount });
+      product.availableQuantity -= amount;
       await product.save();
       res.json(purchase);
     } catch (error) {

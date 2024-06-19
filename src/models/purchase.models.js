@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../database/connection.js";
 import Products from "./products.models.js";
+import User from "./user.models.js";
 
 const Purchases = db.define(
   "Purchases",
@@ -10,10 +11,18 @@ const Purchases = db.define(
       allowNull: false,
       references: {
         model: Products,
-        key: 'id'
-      }
+        key: "id",
+      },
     },
-    cantidad: {
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
+    amount: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -34,8 +43,10 @@ const Purchases = db.define(
   }
 );
 
-// Establecer la relación
-Products.hasMany(Purchases, { foreignKey: 'product_id' });
-Purchases.belongsTo(Products, { foreignKey: 'product_id' });
+Products.hasMany(Purchases, { foreignKey: "product_id" });
+Purchases.belongsTo(Products, { foreignKey: "product_id" });
+
+User.hasMany(Purchases, { foreignKey: "user_id" });
+Purchases.belongsTo(User, { foreignKey: "user_id" });
 
 export default Purchases;
