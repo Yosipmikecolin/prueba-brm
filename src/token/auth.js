@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "Ik2JvZBtWhQWwRO";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const generateToken = (id) => {
   const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: "5h" });
