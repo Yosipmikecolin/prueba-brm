@@ -7,30 +7,62 @@ import { createPurchaseDetail } from "./purchase-details.controller.js";
 export const createPurchase = [
   authorizeClient,
   async (req, res) => {
-    const { product_id, amount } = req.body;
+    const purchasesData = req.body;
     const user_id = req.user_id;
-    try {
-      const product = await Products.findByPk(product_id);
-      if (!product) {
-        return res.status(404).json({ error: "Producto no encontrado" });
+
+    // Verificar que purchasesData es un array
+    if (!Array.isArray(purchasesData)) {
+      return res.status(400).json({
+        error: "El cuerpo de la solicitud debe ser un array de compras",
+      });
+    }
+
+    const results = [];
+    const errors = [];
+
+    for (const purchaseData of purchasesData) {
+      const { product_id, amount } = purchaseData;
+
+      try {
+        const product = await Products.findByPk(product_id);
+        if (!product) {
+          errors.push({ product_id, error: "Producto no encontrado" });
+          continue;
+        }
+        if (product.availableQuantity < amount) {
+          errors.push({ product_id, error: "Stock insuficiente" });
+          continue;
+        }
+
+        const purchase = await Purchases.create({
+          product_id,
+          amount,
+          user_id,
+        });
+
+        product.availableQuantity -= amount;
+        await product.save();
+
+        const details = {
+          user_id,
+          product_id,
+          amount,
+          totalPrice: product.price * amount,
+        };
+        await createPurchaseDetail(details);
+
+        results.push(purchase);
+      } catch (error) {
+        console.log("Error al crear la compra", error);
+        errors.push({ product_id, error: "Error al crear la compra" });
       }
-      if (product.availableQuantity < amount) {
-        return res.status(400).json({ error: "Stock insuficiente" });
-      }
-      const purchase = await Purchases.create({ product_id, amount, user_id });
-      product.availableQuantity -= amount;
-      const details = {
-        user_id,
-        product_id,
-        amount,
-        totalPrice: product.price * amount,
-      };
-      await createPurchaseDetail(details);
-      await product.save();
-      res.json(purchase);
-    } catch (error) {
-      console.log("Error al crear la compra", error);
-      res.status(500).json({ error: "Error al crear la compra" });
+    }
+
+    // Si hay errores, enviar los errores junto con los resultados exitosos
+    if (errors.length > 0) {
+      return res.status(207).json({ success: results, errors });
+    } else {
+      res.json(results);
     }
   },
 ];
