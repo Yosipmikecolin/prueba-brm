@@ -22,7 +22,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/src/index.js"
+      "dest": "/src/app.js"
     }
   ]
 }
