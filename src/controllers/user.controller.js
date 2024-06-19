@@ -20,7 +20,7 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
-    const token = generateToken(user.rol);
+    const token = generateToken(user.id);
     res.json({
       username: user.username,
       token,

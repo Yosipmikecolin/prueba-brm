@@ -1,5 +1,6 @@
 import db from "../database/connection.js";
 import { verifyToken } from "../token/auth.js";
+import User from "../models/user.models.js";
 
 // * INICIAR BASE DE DATOS
 export const startDB = async () => {
@@ -12,7 +13,7 @@ export const startDB = async () => {
 };
 
 // * VALIDAR AUTORIZACIÓN
-export const authorizeAdmin = (req, res, next) => {
+export const authorizeAdmin = async (req, res, next) => {
   const token = req.headers["authorization"];
 
   if (!token) {
@@ -21,12 +22,16 @@ export const authorizeAdmin = (req, res, next) => {
 
   try {
     const response = verifyToken(token);
+    const user = await User.findByPk(response.id);
 
-    if (response.rol !== "admin") {
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    if (user.role !== "admin") {
       return res.status(401).json({ error: "No eres administrador" });
     }
 
-    req.user = response; // Guarda el usuario en el request para uso futuro
     next();
   } catch (error) {
     console.error("Error al verificar el token:", error);
@@ -34,7 +39,7 @@ export const authorizeAdmin = (req, res, next) => {
   }
 };
 
-export const authorizeClient = (req, res, next) => {
+export const authorizeClient = async (req, res, next) => {
   const token = req.headers["authorization"];
 
   if (!token) {
@@ -43,12 +48,16 @@ export const authorizeClient = (req, res, next) => {
 
   try {
     const response = verifyToken(token);
+    const user = await User.findByPk(response.id);
 
-    if (response.rol !== "client") {
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    if (response.role !== "client") {
       return res.status(401).json({ error: "No eres cliente" });
     }
 
-    req.user = response; // Guarda el usuario en el request para uso futuro
     next();
   } catch (error) {
     console.error("Error al verificar el token:", error);

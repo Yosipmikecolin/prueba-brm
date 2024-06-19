@@ -14,7 +14,7 @@ const User = db.define("User", {
     unique: true,
   },
   password: { type: DataTypes.STRING, allowNull: false },
-  rol: {
+  role: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
