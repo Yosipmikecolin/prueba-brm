@@ -6,17 +6,17 @@ import Products from "../models/products.models.js";
 export const createPurchaseDetail = async (params) => {
   const { user_id, product_id, amount, totalPrice } = params;
   try {
-    const purchaseDetail = await PurchaseDetails.create({
+    await PurchaseDetails.create({
       user_id,
       product_id,
       amount,
       totalPrice,
       datePurchase: new Date(),
     });
-    res.status(201).json(purchaseDetail);
+    return true;
   } catch (error) {
     console.error("Error creating purchase detail:", error);
-    res.status(500).json({ error: "Error creating purchase detail" });
+    return false;
   }
 };
 

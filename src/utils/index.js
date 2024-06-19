@@ -30,9 +30,10 @@ export const authorizeAdmin = async (req, res, next) => {
 
     if (user.role !== "admin") {
       return res.status(401).json({ error: "No eres administrador" });
+    } else {
+      req.user_id = user.id;
+      next();
     }
-
-    next();
   } catch (error) {
     console.error("Error al verificar el token:", error);
     res.status(500).json({ error: "Error al verificar el token" });
@@ -54,11 +55,12 @@ export const authorizeClient = async (req, res, next) => {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    if (response.role !== "client") {
+    if (user.role !== "client") {
       return res.status(401).json({ error: "No eres cliente" });
+    } else {
+      req.user_id = user.id;
+      next();
     }
-
-    next();
   } catch (error) {
     console.error("Error al verificar el token:", error);
     res.status(500).json({ error: "Error al verificar el token" });

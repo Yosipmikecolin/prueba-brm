@@ -8,6 +8,7 @@ export const createPurchase = [
   authorizeClient,
   async (req, res) => {
     const { product_id, amount } = req.body;
+    const user_id = req.user_id;
     try {
       const product = await Products.findByPk(product_id);
       if (!product) {
@@ -16,8 +17,15 @@ export const createPurchase = [
       if (product.availableQuantity < amount) {
         return res.status(400).json({ error: "Stock insuficiente" });
       }
-      const purchase = await Purchases.create({ product_id, amount });
+      const purchase = await Purchases.create({ product_id, amount, user_id });
       product.availableQuantity -= amount;
+      const details = {
+        user_id,
+        product_id,
+        amount,
+        totalPrice: product.price * amount,
+      };
+      await createPurchaseDetail(details);
       await product.save();
       res.json(purchase);
     } catch (error) {
