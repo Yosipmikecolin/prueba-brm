@@ -1,5 +1,5 @@
 import User from "../models/user.module.js";
-
+import { validationUser } from "../validations/index.js";
 
 //OBTENER USUARIOS
 export const getUser = async (_req, res) => {
@@ -7,15 +7,23 @@ export const getUser = async (_req, res) => {
   res.json(users);
 };
 
-
 //CREAR USUARIO
 export const createUser = async (req, res) => {
   try {
     const { body } = req;
-    const user = new User(body);
-    await user.save();
-    res.status(201).json(user);
+
+    const existingUser = await User.findOne({ where: { email: body.email } });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ error: "El correo electrónico ya está registrado" });
+    } else {
+      const newUser = await User.create(body);
+      res.status(201).json(newUser);
+    }
   } catch (error) {
-    res.status(500).send(error);
+    console.log("Error en consola", error);
+    const response = validationUser(error.message);
+    res.status(500).json({ error: response });
   }
 };
