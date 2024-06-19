@@ -33,3 +33,25 @@ export const authorizeAdmin = (req, res, next) => {
     res.status(500).json({ error: "Error al verificar el token" });
   }
 };
+
+export const authorizeClient = (req, res, next) => {
+  const token = req.headers["authorization"];
+
+  if (!token) {
+    return res.status(400).json({ error: "Token no proporcionado" });
+  }
+
+  try {
+    const response = verifyToken(token);
+
+    if (response.rol !== "client") {
+      return res.status(401).json({ error: "No eres cliente" });
+    }
+
+    req.user = response; // Guarda el usuario en el request para uso futuro
+    next();
+  } catch (error) {
+    console.error("Error al verificar el token:", error);
+    res.status(500).json({ error: "Error al verificar el token" });
+  }
+};
