@@ -1,30 +1,45 @@
 import { DataTypes } from 'sequelize';
 import db from '../database/connection.js';
 
-const Product = db.define('Product', {
+const Products = db.define('Products', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   lotNumber: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   price: {
     type: DataTypes.FLOAT,
-    allowNull: false
+    allowNull: false,
   },
   availableQuantity: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   entryDate: {
     type: DataTypes.DATE,
-    allowNull: false
+    allowNull: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 }, {
-  timestamps: false
+  tableName: 'Products',
+  timestamps: true,
 });
 
-export default Product;
+export default Products;
