@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import usersRouter from "./routes/user.route.js";
+import productsRouter from "./routes/products.route.js";
 import { startDB } from "./utils/index.js";
 
 const app = express();
@@ -11,7 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 //ROUTES
-app.use("/user", usersRouter);
+app.use("/api/user", usersRouter);
+app.use("/api/products", productsRouter);
 
 //SERVER
 app.listen(4000, () => {

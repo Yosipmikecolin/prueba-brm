@@ -1,8 +1,9 @@
-import User from "../models/user.module.js";
+import User from "../models/user.models.js";
 import { validationUser } from "../validations/index.js";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../token/auth.js";
 
-// OBTENER USUARIOS
+// *LOGIN USUARIO
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -19,10 +20,10 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
+    const token = generateToken(user.rol);
     res.json({
-      id: user.id,
-      email: user.email,
-      username: user.username, // Si deseas devolver más datos del usuario
+      username: user.username,
+      token,
     });
   } catch (error) {
     console.error("Error al autenticar usuario:", error);
@@ -32,14 +33,10 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
-// !CREAR USUARIO
+// *CREAR USUARIO
 export const createUser = async (req, res) => {
   try {
     const { body } = req;
-
-    // Encripta la contraseña antes de guardarla
-    const hashedPassword = await bcrypt.hash(body.password, 10); // 10 es el número de rondas de encriptación
 
     const existingUser = await User.findOne({ where: { email: body.email } });
     if (existingUser) {
@@ -48,13 +45,21 @@ export const createUser = async (req, res) => {
         .json({ error: "El correo electrónico ya está registrado" });
     }
 
+    // Encripta la contraseña antes de guardarla
+    const hashedPassword = await bcrypt.hash(body.password, 10); // 10 es el número de rondas de encriptación
+
     // Crea un nuevo usuario con la contraseña encriptada
     const newUser = await User.create({
       ...body,
       password: hashedPassword, // Guarda la contraseña encriptada en la base de datos
     });
 
-    res.status(201).json(newUser);
+    // Genera un token JWT y envía username y token en la respuesta
+    const token = generateToken(newUser.rol);
+    res.status(201).json({
+      username: newUser.username,
+      token,
+    });
   } catch (error) {
     console.error("Error al crear usuario:", error);
     const response = validationUser(error.message);
