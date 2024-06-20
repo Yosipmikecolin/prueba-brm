@@ -39,6 +39,12 @@ Aquí encontrarás guías detalladas para configurar y utilizar el proyecto:
 - **Funcionamiento de la API**: Revisa la [documentación PDF](https://drive.google.com/file/d/1-UkTmCTxR7jTGE8aWWfU9JjD9zqmsWls/view?usp=sharing) para entender cómo funciona y cómo interactuar con la API.
 
 
+
+## Archivo de Postman para pruebas 🎨
+
+Descarga el [archivo POSTMAN](https://drive.google.com/file/d/10vGlpRHC-zqMOIWfltCDxCVnatObDtuM/view?usp=sharing) para realizar las pruebas de la API.
+
+
 ## Despliegue 📦 
 A continuación, se presenta la URL de despliegue de la API:
 
