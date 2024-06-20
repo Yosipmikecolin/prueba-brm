@@ -47,11 +47,16 @@ const PurchaseDetails = db.define(
   }
 );
 
-// Establecer las relaciones
+//1 USUARIO PUEDE TENER RELACION CON MUCHOS REGISTRO DE (PurchaseDetails)
 User.hasMany(PurchaseDetails, { foreignKey: 'user_id' });
+
+//MUCHOS REGISTORS DE (PurchaseDetails) PUEDE TENER 1 USUARIO
 PurchaseDetails.belongsTo(User, { foreignKey: 'user_id' });
 
+//1 PRODUCTO PUEDE TENER RELACION CON MUCHOS REGISTRO DE (PurchaseDetails)
 Products.hasMany(PurchaseDetails, { foreignKey: 'product_id' });
+
+//MUCHOS REGISTORS DE (PurchaseDetails) PUEDE TENER 1 PRODUCTO
 PurchaseDetails.belongsTo(Products, { foreignKey: 'product_id' });
 
 export default PurchaseDetails;
