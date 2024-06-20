@@ -29,6 +29,10 @@ A continuación, se enumeran los paquetes necesarios para ejecutar el proyecto e
 - **Respuestas en JSON:** Todas las respuestas de la API están formateadas en JSON para una fácil integración y manipulación.
 - **Documentación de la API:** Proporciona documentación detallada para facilitar el uso y la integración de la API por parte de desarrolladores.
 
+## Generar documentación de la API 🗃️
+- `npm install apidoc -g`: Instalar el paquete de forma global
+- `npm run docs`: Genera los documentación para apiDoc
+- `npm run open-docs` : Abre la documentación en el navegador
 
 
 ## Guías de Uso 🛞

@@ -57,6 +57,7 @@ export const createUser = async (req, res) => {
       message: "Usuario creado exitosamente",
     });
   } catch (error) {
+    console.error("Error al crear un usuario:", error);
     const response = validationErrors(error.message);
     res.status(500).json({ error: response });
   }
